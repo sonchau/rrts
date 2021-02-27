@@ -16,14 +16,17 @@ interface AppState {
 
 const _App1: React.FC<AppProps> = (props: AppProps) => {
   const [loading, setLoading] = useState(false)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     setLoading(false)
+    setCount(props.todos.length)
   },[props.todos.length]);
 
   const onButtonClick = (): void => {
     props.fetchTodos();
     setLoading(true)
+    
   };
 
   const onTodoClick = (id: number): void => {
@@ -33,14 +36,16 @@ const _App1: React.FC<AppProps> = (props: AppProps) => {
   const renderList = (): JSX.Element[] => {
     return props.todos.map((todo: Todo) => {
       return (
-        <div onClick={() => onTodoClick(todo.id)} key={todo.id}>
-          {todo.title}
+        <div  key={todo.id}>
+          <span >{todo.title} </span>
+          <span onClick={() => onTodoClick(todo.id)}> <button>delele</button></span>
         </div>
       );
     });
   }
   return (
     <div>
+      <h1>Count: {count}</h1>
       <button onClick={onButtonClick}>Fetch</button>
       {loading ? 'LOADING' : null}
       {renderList()}
